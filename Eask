@@ -14,6 +14,7 @@
 (source 'jcs-elpa)
 
 (depends-on "emacs" "26.1")
+(depends-on "msgu")
 (depends-on "nerd-icons")
 (depends-on "noflet")
 
