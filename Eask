@@ -1,11 +1,11 @@
-(package "block-travel"
+(package "nerd-icons-buffer-menu"
          "0.1.0"
-         "Move to previous/next blank line")
+         "Display nerd icons in `buffer-menu'")
 
 (website-url "https://github.com/jcs-elpa/nerd-icons-buffer-menu")
-(keywords "convenience")
+(keywords "frames")
 
-(package-file "block-travel.el")
+(package-file "nerd-icons-buffer-menu.el")
 
 (script "test" "echo \"Error: no test specified\" && exit 1")
 
