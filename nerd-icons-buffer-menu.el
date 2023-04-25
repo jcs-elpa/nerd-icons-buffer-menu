@@ -6,7 +6,7 @@
 ;; Maintainer: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; URL: https://github.com/jcs-elpa/nerd-icons-buffer-menu
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "26.1") (nerd-icons "0.0.1"))
+;; Package-Requires: ((emacs "26.1") (nerd-icons "0.0.1") (noflet "0.0.15"))
 ;; Keywords: frames
 
 ;; This file is not part of GNU Emacs.
@@ -40,6 +40,29 @@
   :group 'frames
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/nerd-icons-buffer-menu"))
 
+;;
+;;; Entry
+
+(defun nerd-icons-buffer-menu--enable ()
+  "Enable `nerd-icons-buffer-menu-mode'."
+  (advice-add 'list-buffers--refresh :around #'nerd-icons-buffer-menu--refresh))
+
+(defun nerd-icons-buffer-menu--disable ()
+  "Disable `nerd-icons-buffer-menu-mode'."
+  (advice-remove 'list-buffers--refresh #'nerd-icons-buffer-menu--refresh))
+
+;;;###autoload
+(define-minor-mode nerd-icons-buffer-menu-mode
+  "Minor mode `nerd-icons-buffer-menu-mode'."
+  :global t
+  :require 'nerd-icons-buffer-menu
+  :group 'nerd-icons-buffer-menu
+  (if nerd-icons-buffer-menu-mode (nerd-icons-buffer-menu--enable)
+    (nerd-icons-buffer-menu--disable)))
+
+;;
+;;; Core
+
 (defun nerd-icons-buffer-menu--refresh (func &rest args)
   "Execute around function `list-buffers--refresh'."
   (if (not nerd-icons-buffer-menu-mode)
@@ -60,23 +83,6 @@
                   (concat icon original-value))
               original-value))))
         (apply func args)))))
-
-(defun nerd-icons-buffer-menu--enable ()
-  "Enable `nerd-icons-buffer-menu-mode'."
-  (advice-add 'list-buffers--refresh :around #'nerd-icons-buffer-menu--refresh))
-
-(defun nerd-icons-buffer-menu--disable ()
-  "Disable `nerd-icons-buffer-menu-mode'."
-  (advice-remove 'list-buffers--refresh #'nerd-icons-buffer-menu--refresh))
-
-;;;###autoload
-(define-minor-mode nerd-icons-buffer-menu-mode
-  "Minor mode `nerd-icons-buffer-menu-mode'."
-  :global t
-  :require 'nerd-icons-buffer-menu
-  :group 'nerd-icons-buffer-menu
-  (if nerd-icons-buffer-menu-mode (nerd-icons-buffer-menu--enable)
-    (nerd-icons-buffer-menu--disable)))
 
 (provide 'nerd-icons-buffer-menu)
 ;;; nerd-icons-buffer-menu.el ends here
