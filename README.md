@@ -6,6 +6,37 @@
 
 [![CI](https://github.com/jcs-elpa/nerd-icons-buffer-menu/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/nerd-icons-buffer-menu/actions/workflows/test.yml)
 
+<img src="./etc/screenshot.png" />
+
+## 💾 Installation
+
+### 🔍 Method 1. with `straight.el` and `use-package`:
+
+```elisp
+(use-package nerd-icons-buffer-menu
+  :straight (nerd-icons-buffer-menu :type git :host github :repo "jcs-elpa/nerd-icons-buffer-menu"))
+```
+
+### 🔍 Method 2. Manual
+
+```sh
+git clone https://github.com/jcs-elpa/nerd-icons-buffer-menu /path/to/lib
+```
+
+then in Emacs:
+
+```elisp
+(add-to-list 'load-path "/path/to/lib")
+(require 'nerd-icons-buffer-menu)
+```
+
+or
+
+```elisp
+(use-package nerd-icons-buffer-menu
+  :load-path "/path/to/lib")
+```
+
 ## 🔨 Usage
 
 ```elisp
