@@ -6,7 +6,9 @@
 
 [![CI](https://github.com/jcs-elpa/nerd-icons-buffer-menu/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/nerd-icons-buffer-menu/actions/workflows/test.yml)
 
-<img src="./etc/screenshot.png" />
+<p align="center">
+<img src="./etc/screenshot.png" width="60%" />
+</p>
 
 ## 💾 Installation
 
