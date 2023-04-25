@@ -6,6 +6,14 @@
 
 [![CI](https://github.com/jcs-elpa/nerd-icons-buffer-menu/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/nerd-icons-buffer-menu/actions/workflows/test.yml)
 
+## 🔨 Usage
+
+```elisp
+(use-package nerd-icons-buffer-menu
+  :ensure t
+  :hook (Buffer-menu-mode . nerd-icons-buffer-menu-mode))
+```
+
 ## Contribute
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
