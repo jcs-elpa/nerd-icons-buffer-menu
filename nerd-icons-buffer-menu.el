@@ -65,6 +65,11 @@
 ;;
 ;;; Core
 
+(defun nerd-icons-buffer-menu--icon-for-buffer ()
+  "Return icon for buffer."
+  (or (ignore-errors (nerd-icons-icon-for-file (buffer-file-name)))
+      (ignore-errors (nerd-icons-icon-for-mode major-mode))))
+
 (defun nerd-icons-buffer-menu--refresh (func &rest args)
   "Execute around function `list-buffers--refresh'."
   (if (not nerd-icons-buffer-menu-mode)
@@ -75,7 +80,7 @@
           (format &optional face window buffer &rest _)
           (let ((original-value (funcall original-function format face window buffer)))
             (if (equal format mode-name)
-                (let ((icon (let* ((icon (nerd-icons-icon-for-buffer))
+                (let ((icon (let* ((icon (nerd-icons-buffer-menu--icon-for-buffer))
                                    (icon (if (or (null icon) (symbolp icon))
                                              (nerd-icons-faicon "nf-fa-file_o")
                                            icon)))
