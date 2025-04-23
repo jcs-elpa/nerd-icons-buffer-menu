@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "nerd-icons-buffer-menu"
          "0.1.0"
          "Display nerd icons in `buffer-menu'")
