@@ -11,7 +11,8 @@
 
 (script "test" "echo \"Error: no test specified\" && exit 1")
 
-(source "gnu")
+(source 'gnu)
+(source 'melpa)
 
 (depends-on "emacs" "26.1")
 (depends-on "nerd-icons" "0.0.1")
