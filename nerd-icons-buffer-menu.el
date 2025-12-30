@@ -41,6 +41,16 @@
   :group 'frames
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/nerd-icons-buffer-menu"))
 
+(defcustom nerd-icons-buffer-menu-icon-scale-factor 1.0
+  "The base scale factor for the `height' face property of tab icons."
+  :type 'number
+  :group 'nerd-icons-buffer-menu)
+
+(defcustom nerd-icons-buffer-menu-icon-v-adjust 0.01
+  "The vertical adjust for tab icons."
+  :type 'number
+  :group 'nerd-icons-buffer-menu)
+
 ;;
 ;;; Entry
 
@@ -69,11 +79,11 @@
   "Return the default file icon."
   (nerd-icons-faicon "nf-fa-file_o"))
 
-(defun nerd-icons-buffer-menu--icon-for-buffer ()
-  "Return icon for buffer."
-  (let* ((icon-f (ignore-errors (nerd-icons-icon-for-file (buffer-file-name))))
-         (icon-m (ignore-errors (nerd-icons-icon-for-mode major-mode)))
-         (default-f (equal icon-f (nerd-icons-buffer-menu--icon-file-default))))
+(defun nerd-icons-buffer-menu--icon-for-buffer (&rest args)
+  "Return icon for buffer with ARGS."
+  (let* ((icon-f (ignore-errors (apply #'nerd-icons-icon-for-file (buffer-file-name) args)))
+         (icon-m (ignore-errors (apply #'nerd-icons-icon-for-mode major-mode args)))
+         (default-f (equal icon-f (jcs-modeline--icon-file-default))))
     (if default-f
         (or icon-m icon-f)
       (or icon-f icon-m))))
@@ -88,7 +98,9 @@
           (format &optional face window buffer &rest _)
           (let ((original-value (funcall original-function format face window buffer)))
             (if (equal format mode-name)
-                (let ((icon (let* ((icon (nerd-icons-buffer-menu--icon-for-buffer))
+                (let ((icon (let* ((icon (nerd-icons-buffer-menu--icon-for-buffer
+                                          :height nerd-icons-buffer-menu-icon-scale-factor
+                                          :v-adjust nerd-icons-buffer-menu-icon-v-adjust))
                                    (icon (if (or (null icon) (symbolp icon))
                                              (nerd-icons-buffer-menu--icon-file-default)
                                            icon)))
