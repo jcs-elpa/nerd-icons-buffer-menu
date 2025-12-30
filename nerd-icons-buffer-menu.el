@@ -65,10 +65,18 @@
 ;;
 ;;; Core
 
+(defun nerd-icons-buffer-menu--icon-file-default ()
+  "Return the default file icon."
+  (nerd-icons-faicon "nf-fa-file_o"))
+
 (defun nerd-icons-buffer-menu--icon-for-buffer ()
   "Return icon for buffer."
-  (or (ignore-errors (nerd-icons-icon-for-file (buffer-file-name)))
-      (ignore-errors (nerd-icons-icon-for-mode major-mode))))
+  (let* ((icon-f (ignore-errors (nerd-icons-icon-for-file (buffer-file-name))))
+         (icon-m (ignore-errors (nerd-icons-icon-for-mode major-mode)))
+         (default-f (equal icon-f (nerd-icons-buffer-menu--icon-file-default))))
+    (if default-f
+        (or icon-m icon-f)
+      (or icon-f icon-m))))
 
 (defun nerd-icons-buffer-menu--refresh (func &rest args)
   "Execute around function `list-buffers--refresh'."
@@ -82,7 +90,7 @@
             (if (equal format mode-name)
                 (let ((icon (let* ((icon (nerd-icons-buffer-menu--icon-for-buffer))
                                    (icon (if (or (null icon) (symbolp icon))
-                                             (nerd-icons-faicon "nf-fa-file_o")
+                                             (nerd-icons-buffer-menu--icon-file-default)
                                            icon)))
                               (if (and icon
                                        (char-displayable-p (string-to-char icon)))
