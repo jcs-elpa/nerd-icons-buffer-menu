@@ -13,10 +13,11 @@
 
 (source 'gnu)
 (source 'melpa)
+(source 'jcs-elpa)
 
 (depends-on "emacs" "26.1")
-(depends-on "nerd-icons" "0.0.1")
-(depends-on "noflet" "0.0.15")
-(depends-on "msgu" "0.1.0")
+(depends-on "nerd-icons")
+(depends-on "noflet")
+(depends-on "msgu")
 
 (setq network-security-level 'low)  ; see https://github.com/jcs090218/setup-emacs-windows/issues/156#issuecomment-932956432
