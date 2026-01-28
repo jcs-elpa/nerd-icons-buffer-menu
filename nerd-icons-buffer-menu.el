@@ -79,8 +79,7 @@
   "Execute around function `list-buffers--refresh'."
   (if (not nerd-icons-buffer-menu-mode)
       (apply func args)
-    (let ((of-format-mode-line (symbol-function 'format-mode-line))
-          (of-Buffer-menu--pretty-file-name (symbol-function 'Buffer-menu--pretty-file-name)))
+    (let ((of-format-mode-line (symbol-function 'format-mode-line)))
       (noflet
         ((format-mode-line
           (format &optional face window buffer &rest _)
