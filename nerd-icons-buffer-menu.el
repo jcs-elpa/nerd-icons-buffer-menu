@@ -75,41 +75,33 @@
 ;;
 ;;; Core
 
-(defun nerd-icons-buffer-menu--icon-file-default ()
-  "Return the default file icon."
-  (nerd-icons-faicon "nf-fa-file_o"))
-
-(defun nerd-icons-buffer-menu--icon-for-buffer (&rest args)
-  "Return icon for buffer with ARGS."
-  (let* ((icon-f (ignore-errors (apply #'nerd-icons-icon-for-file (buffer-file-name) args)))
-         (icon-m (ignore-errors (apply #'nerd-icons-icon-for-mode major-mode args)))
-         (default-f (equal icon-f (jcs-modeline--icon-file-default))))
-    (if default-f
-        (or icon-m icon-f)
-      (or icon-f icon-m))))
-
 (defun nerd-icons-buffer-menu--refresh (func &rest args)
   "Execute around function `list-buffers--refresh'."
   (if (not nerd-icons-buffer-menu-mode)
       (apply func args)
-    (let ((original-function (symbol-function 'format-mode-line)))
+    (let ((of-format-mode-line (symbol-function 'format-mode-line))
+          (of-Buffer-menu--pretty-file-name (symbol-function 'Buffer-menu--pretty-file-name)))
       (noflet
         ((format-mode-line
           (format &optional face window buffer &rest _)
-          (let ((original-value (funcall original-function format face window buffer)))
-            (if (equal format mode-name)
-                (let ((icon (let* ((icon (nerd-icons-buffer-menu--icon-for-buffer
-                                          :height nerd-icons-buffer-menu-icon-scale-factor
-                                          :v-adjust nerd-icons-buffer-menu-icon-v-adjust))
-                                   (icon (if (or (null icon) (symbolp icon))
-                                             (nerd-icons-buffer-menu--icon-file-default)
-                                           icon)))
-                              (if (and icon
-                                       (char-displayable-p (string-to-char icon)))
-                                  (concat icon " ")
-                                ""))))
-                  (concat icon original-value))
-              original-value))))
+          (let ((o-value (funcall of-format-mode-line format face window buffer)))
+            (cond
+             ;; Mode name
+             ((equal format mode-name)
+              (let ((icon (let* ((icon (nerd-icons-icon-for-mode
+                                        major-mode
+                                        :height nerd-icons-buffer-menu-icon-scale-factor
+                                        :v-adjust nerd-icons-buffer-menu-icon-v-adjust))
+                                 (icon (if (or (null icon) (symbolp icon))
+                                           nil
+                                         icon)))
+                            (if (and icon
+                                     (char-displayable-p (string-to-char icon)))
+                                (concat icon " ")
+                              ""))))
+                (concat icon o-value)))
+             ;; Default
+             (t o-value)))))
         (apply func args)))))
 
 (provide 'nerd-icons-buffer-menu)
